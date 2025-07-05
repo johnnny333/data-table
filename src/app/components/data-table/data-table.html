@@ -1,6 +1,6 @@
 @if(usersResource.hasValue()) { @let keys = keys$();
 
-<table>
+<table aria-label="User details table">
   <caption>
     Users table
   </caption>
@@ -28,9 +28,21 @@
         <option value="10">Show 10</option>
         <option value="20">Show 20</option>
       </select>
-      <button [disabled]="currentPage === 1" (click)="prevPage()">Prev</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button [disabled]="totalPages === currentPage" (click)="nextPage()">
+      <button
+        [disabled]="currentPage === 1"
+        (click)="prevPage()"
+        aria-label="Previous page"
+      >
+        Prev
+      </button>
+      <span aria-current="page"
+        >Page {{ currentPage }} of {{ totalPages }}</span
+      >
+      <button
+        [disabled]="totalPages === currentPage"
+        (click)="nextPage()"
+        aria-label="Next page"
+      >
         Next
       </button>
     </tr>
@@ -40,5 +52,5 @@
 } @else if (usersResource.error()) {
 <div>Could not load user information</div>
 } @else if (usersResource.isLoading()) {
-<div>Loading user info...</div>
+<div aria-live="polite" role="status">Loading user info...</div>
 }
