@@ -1,4 +1,4 @@
-@if(usersResource.hasValue()) { @let keys = keys$();
+@if(dataResource.hasValue()) { @let keys = keys$();
 
 <table aria-label="User details table">
   <caption>
@@ -7,7 +7,12 @@
   <thead>
     <tr>
       @for (key of keys; track $index) {
-      <th scope="col">{{ key | titlecase }}</th>
+      <th scope="col" (click)="setSortVars(key)">
+        {{ key | titlecase }}
+        @if(currentSortField$() === key) { ({{
+          sortDirection$() === "asc" ? "↑" : "↓"
+        }}) }
+      </th>
       }
     </tr>
   </thead>
@@ -15,7 +20,9 @@
     @for (user of visibleUsers(); track user.id) {
     <tr>
       @for (key of keys; track $index) {
-      <td>{{ user[key] }}</td>
+      <td>
+        {{ user[key] }}
+      </td>
       }
     </tr>
     }
@@ -23,7 +30,8 @@
   @let totalPages = totalPages$(); @let currentPage = currentPage$();
   <tfoot>
     <tr>
-      <select name="no-of-users" [(ngModel)]="visibleEntities">
+      <!-- TODO Extract pagination -->
+      <select name="no-of-users" [(ngModel)]="pageSize$">
         <option value="5">Show 5</option>
         <option value="10">Show 10</option>
         <option value="20">Show 20</option>
@@ -49,8 +57,8 @@
   </tfoot>
 </table>
 
-} @else if (usersResource.error()) {
-<div>Could not load user information</div>
-} @else if (usersResource.isLoading()) {
-<div aria-live="polite" role="status">Loading user info...</div>
+} @else if (dataResource.error()) {
+<p>Could not load user information</p>
+} @else if (dataResource.isLoading()) {
+<p aria-live="polite" role="status">Loading user info...</p>
 }
