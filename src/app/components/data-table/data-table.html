@@ -1,0 +1,44 @@
+@if(usersResource.hasValue()) { @let keys = keys$();
+
+<table>
+  <caption>
+    Users table
+  </caption>
+  <thead>
+    <tr>
+      @for (key of keys; track $index) {
+      <th scope="col">{{ key | titlecase }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (user of visibleUsers(); track user.id) {
+    <tr>
+      @for (key of keys; track $index) {
+      <td>{{ user[key] }}</td>
+      }
+    </tr>
+    }
+  </tbody>
+  @let totalPages = totalPages$(); @let currentPage = currentPage$();
+  <tfoot>
+    <tr>
+      <select name="no-of-users" [(ngModel)]="visibleEntities">
+        <option value="5">Show 5</option>
+        <option value="10">Show 10</option>
+        <option value="20">Show 20</option>
+      </select>
+      <button [disabled]="currentPage === 1" (click)="prevPage()">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button [disabled]="totalPages === currentPage" (click)="nextPage()">
+        Next
+      </button>
+    </tr>
+  </tfoot>
+</table>
+
+} @else if (usersResource.error()) {
+<div>Could not load user information</div>
+} @else if (usersResource.isLoading()) {
+<div>Loading user info...</div>
+}
