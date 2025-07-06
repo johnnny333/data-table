@@ -27,32 +27,13 @@
     </tr>
     }
   </tbody>
-  @let totalPages = totalPages$(); @let currentPage = currentPage$();
   <tfoot>
     <tr>
-      <!-- TODO Extract pagination -->
-      <select name="no-of-users" [(ngModel)]="pageSize$">
-        <option value="5">Show 5</option>
-        <option value="10">Show 10</option>
-        <option value="20">Show 20</option>
-      </select>
-      <button
-        [disabled]="currentPage === 1"
-        (click)="prevPage()"
-        aria-label="Previous page"
-      >
-        Prev
-      </button>
-      <span aria-current="page"
-        >Page {{ currentPage }} of {{ totalPages }}</span
-      >
-      <button
-        [disabled]="totalPages === currentPage"
-        (click)="nextPage()"
-        aria-label="Next page"
-      >
-        Next
-      </button>
+      <app-paginator
+        [totalPages$]="totalPages$()"
+        [(currentPage$)]="currentPage$"
+        [(pageSize$)]="pageSize$"
+      ></app-paginator>
     </tr>
   </tfoot>
 </table>

@@ -3,23 +3,23 @@ import {
   computed,
   inject,
   linkedSignal,
-  signal as model,
   signal,
 } from '@angular/core';
 import { UsersHttp } from '../../services/users-http/users-http';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../mocks/data/users';
 import { FormsModule } from '@angular/forms';
+import { Paginator } from '../paginator/paginator';
 
 @Component({
   selector: 'app-data-table',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Paginator],
   templateUrl: './data-table.html',
   styleUrl: './data-table.css',
 })
 export class DataTable {
   protected dataResource = inject(UsersHttp).usersResource;
-  protected pageSize$ = model(5);
+  protected pageSize$ = signal(5);
   protected keys$ = computed(() => {
     const users = this.dataResource.value();
 
@@ -31,7 +31,7 @@ export class DataTable {
 
   protected totalPages$ = computed(() => {
     const resource = this.dataResource.value();
-    const perPage = this.pageSize$() ?? 1;
+    const perPage = this.pageSize$();
 
     return resource ? Math.ceil(resource.length / perPage) : 1;
   });
@@ -40,14 +40,6 @@ export class DataTable {
    * Reset the page number to the first page when the page size changes.
    */
   protected currentPage$ = linkedSignal(() => (this.pageSize$(), 1));
-
-  protected prevPage() {
-    this.currentPage$.update((p) => Math.max(1, p - 1));
-  }
-
-  protected nextPage() {
-    this.currentPage$.update((p) => Math.min(this.totalPages$(), p + 1));
-  }
 
   protected visibleUsers = computed(() => {
     const sortedData = this.sortedData$();
