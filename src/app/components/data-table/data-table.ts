@@ -31,9 +31,9 @@ export class DataTable {
 
   protected totalPages$ = computed(() => {
     const resource = this.dataResource.value();
-    const perPage = this.pageSize$();
+    const pageSize = this.pageSize$();
 
-    return resource ? Math.ceil(resource.length / perPage) : 1;
+    return resource ? Math.ceil(resource.length / pageSize) : 1;
   });
 
   /**
@@ -41,7 +41,7 @@ export class DataTable {
    */
   protected currentPage$ = linkedSignal(() => (this.pageSize$(), 1));
 
-  protected visibleUsers = computed(() => {
+  protected visibleEntities$ = computed(() => {
     const sortedData = this.sortedData$();
     if (!sortedData) return null;
 
