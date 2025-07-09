@@ -1,11 +1,14 @@
 import { delay, http, HttpResponse } from 'msw';
-import users from './data/users';
 import { setupWorker } from 'msw/browser';
+
+/** Various data types to test */
+// import users from './data/users';
+import { products } from './data/products';
 
 export const handlers = [
   http.get('api/users', async () => {
     await delay(1500);
-    return HttpResponse.json(users);
+    return HttpResponse.json(products);
   }),
 ];
 
