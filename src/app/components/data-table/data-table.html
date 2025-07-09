@@ -7,10 +7,10 @@
   <thead>
     <tr>
       @for (key of keys; track $index) {
-      <th scope="col" (click)="setSortVars(key)">
+      <th scope="col" (click)="sortService.setSortField(key)">
         {{ key | titlecase }}
-        @if(currentSortField$() === key) { ({{
-          sortDirection$() === "asc" ? "↑" : "↓"
+        @if(sortService.currentSortField$() === key) { ({{
+          sortService.sortDirection$() === "asc" ? "↑" : "↓"
         }}) }
       </th>
       }

@@ -9,7 +9,7 @@ async function prepareApp() {
     return worker.start();
   }
 
-  return Promise.resolve();
+  return;
 }
 
 prepareApp().then(() =>
