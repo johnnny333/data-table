@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -19,16 +20,28 @@ import { HttpResourceRef } from '@angular/common/http';
   providers: [SortingService],
   templateUrl: './data-table.html',
   styleUrl: './data-table.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTable<T extends object> {
   readonly dataResource$ = input.required<HttpResourceRef<T[] | undefined>>();
   protected sortService = inject(SortingService<T>);
+  protected pageSize$ = signal(5);
+  /**
+   * Reset the page number to the first page when the page size changes.
+   */
+  protected currentPage$ = linkedSignal(() => (this.pageSize$(), 1));
+
+  constructor() {
+    effect(() => {
+      const data = this.dataResource$().value();
+      if (data) this.sortService.dataSource$.set(data);
+    });
+  }
 
   protected trackByFn(entity: T, index: number) {
     return 'id' in entity ? entity['id'] : index;
   }
 
-  protected pageSize$ = signal(5);
   protected keys$ = computed(() => {
     const dataValue = this.dataResource$().value();
 
@@ -38,24 +51,12 @@ export class DataTable<T extends object> {
     return null;
   });
 
-  constructor() {
-    effect(() => {
-      const data = this.dataResource$().value();
-      if (data) this.sortService.dataSource$.set(data);
-    });
-  }
-
   protected totalPages$ = computed(() => {
     const resource = this.dataResource$().value();
     const pageSize = this.pageSize$();
 
     return resource ? Math.ceil(resource.length / pageSize) : 1;
   });
-
-  /**
-   * Reset the page number to the first page when the page size changes.
-   */
-  protected currentPage$ = linkedSignal(() => (this.pageSize$(), 1));
 
   protected visibleEntities$ = computed(() => {
     const sortedData = this.sortService.sortedData$();

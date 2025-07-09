@@ -1,7 +1,7 @@
 @let dataResource = dataResource$(); @if(dataResource?.hasValue()) { @let keys =
 keys$();
 
-<table aria-label="User details table">
+<table aria-label="Data table">
   <thead>
     <tr>
       @for (key of keys; track $index) {
@@ -37,7 +37,7 @@ keys$();
 </table>
 
 } @else if (dataResource.error()) {
-<p>Could not load user information</p>
+<p>Could not load data</p>
 } @else if (dataResource.isLoading()) {
-<p aria-live="polite" role="status">Loading user info...</p>
+<p aria-live="polite" role="status">Loading data...</p>
 }

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataTable } from './components/data-table/data-table';
-import { UsersHttp } from './services/users-http';
+import { ResourceHttp } from './services/resource-http';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,9 @@ import { UsersHttp } from './services/users-http';
   styleUrl: './app.css',
 })
 export class App {
-  protected usersResource = inject(UsersHttp).usersResource
+  private readonly resourceHttp = inject(ResourceHttp);
+
+  /* Various data types to test */
+  protected usersResource = this.resourceHttp.usersResource;
+  protected productsResource = this.resourceHttp.productsResource;
 }
