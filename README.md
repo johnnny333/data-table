@@ -42,6 +42,8 @@ export class UserComponent {
 
 This implementation demonstrates modern Angular patterns suitable for production use.
 
+![DataTable screenshot](./data-table-screenshot.png)
+
 ---
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.4.
