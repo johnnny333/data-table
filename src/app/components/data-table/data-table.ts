@@ -6,7 +6,7 @@ import {
   inject,
   input,
   linkedSignal,
-  signal,
+  model
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,8 +24,9 @@ import { HttpResourceRef } from '@angular/common/http';
 })
 export class DataTable<T extends object> {
   readonly dataResource$ = input.required<HttpResourceRef<T[] | undefined>>();
+  readonly pageSize$ = model<5 | 10 | 20>(5);
+
   protected sortService = inject(SortingService<T>);
-  protected pageSize$ = signal(5);
   /**
    * Reset the page number to the first page when the page size changes.
    */
