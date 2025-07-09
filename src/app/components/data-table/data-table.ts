@@ -3,15 +3,15 @@ import {
   computed,
   effect,
   inject,
+  input,
   linkedSignal,
   signal,
 } from '@angular/core';
-import { UsersHttp } from '../../services/users-http';
 import { CommonModule } from '@angular/common';
-import { User } from '../../../mocks/data/users';
 import { FormsModule } from '@angular/forms';
 import { Paginator } from '../paginator/paginator';
 import { SortingService } from '../../services/sorting-service';
+import { HttpResourceRef } from '@angular/common/http';
 
 @Component({
   selector: 'app-data-table',
@@ -20,30 +20,33 @@ import { SortingService } from '../../services/sorting-service';
   templateUrl: './data-table.html',
   styleUrl: './data-table.css',
 })
-export class DataTable {
-  // TODO make this into input which would have a transformer
-  protected dataResource = inject(UsersHttp).usersResource;
-  protected sortService = inject(SortingService<User>);
+export class DataTable<T extends object> {
+  readonly dataResource$ = input.required<HttpResourceRef<T[] | undefined>>();
+  protected sortService = inject(SortingService<T>);
+
+  protected trackByFn(entity: T, index: number) {
+    return 'id' in entity ? entity['id'] : index;
+  }
 
   protected pageSize$ = signal(5);
   protected keys$ = computed(() => {
-    const users = this.dataResource.value();
+    const dataValue = this.dataResource$().value();
 
-    if (users && users.length > 0) {
-      return Object.keys(users[0]) as (keyof User)[];
+    if (dataValue && dataValue.length > 0) {
+      return Object.keys(dataValue[0]) as (keyof T)[];
     }
     return null;
   });
 
   constructor() {
     effect(() => {
-      const data = this.dataResource.value();
+      const data = this.dataResource$().value();
       if (data) this.sortService.dataSource$.set(data);
     });
   }
 
   protected totalPages$ = computed(() => {
-    const resource = this.dataResource.value();
+    const resource = this.dataResource$().value();
     const pageSize = this.pageSize$();
 
     return resource ? Math.ceil(resource.length / pageSize) : 1;

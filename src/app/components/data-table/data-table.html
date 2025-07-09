@@ -1,4 +1,5 @@
-@if(dataResource.hasValue()) { @let keys = keys$();
+@let dataResource = dataResource$(); @if(dataResource?.hasValue()) { @let keys =
+keys$();
 
 <table aria-label="User details table">
   <caption>
@@ -8,7 +9,7 @@
     <tr>
       @for (key of keys; track $index) {
       <th scope="col" (click)="sortService.setSortField(key)">
-        {{ key | titlecase }}
+        {{ key.toString() | titlecase }}
         @if(sortService.currentSortField$() === key) { ({{
           sortService.sortDirection$() === "asc" ? "↑" : "↓"
         }}) }
@@ -17,11 +18,11 @@
     </tr>
   </thead>
   <tbody>
-    @for (user of visibleEntities$(); track user.id) {
+    @for (entity of visibleEntities$(); track trackByFn(entity, $index)) {
     <tr>
       @for (key of keys; track $index) {
       <td>
-        {{ user[key] }}
+        {{ entity[key] }}
       </td>
       }
     </tr>

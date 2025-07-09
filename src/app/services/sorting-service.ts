@@ -1,7 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 
 @Injectable()
-export class SortingService<T> {
+export class SortingService<T extends object> {
   public currentSortField$ = signal<keyof T | null>(null);
   public sortDirection$ = signal<'asc' | 'desc'>('asc');
   public dataSource$ = signal<T[]>([]);

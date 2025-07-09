@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DataTable } from './components/data-table/data-table';
+import { UsersHttp } from './services/users-http';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,5 @@ import { DataTable } from './components/data-table/data-table';
   styleUrl: './app.css',
 })
 export class App {
-  protected title = 'data-table';
+  protected usersResource = inject(UsersHttp).usersResource
 }
