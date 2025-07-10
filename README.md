@@ -12,7 +12,7 @@ A modern, signal-based data table built with Angular 20.
 
 ### Data Handling
 
-- **Generic type support** (`<T extends object>`) for any data structure
+- **Generic type support** for any data structure
 - Dynamic column detection from data keys
 - Optional pagination and sorting
 
