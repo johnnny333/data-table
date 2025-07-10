@@ -21,6 +21,7 @@ A modern, signal-based data table built with Angular 20.
 - Uses experimental [HttpResourceRef](https://angular.dev/guide/http/http-resource) for data loading
 - Pure signals for reactivity (no RxJS operators)
 - Minimal change detection through zoneless mode
+- [Mock Service Worker (msw)](https://mswjs.io/) used for API mocking
 
 ## Usage
 
