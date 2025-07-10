@@ -1,6 +1,6 @@
 # Angular Data Table Component
 
-A modern, signal-based data table built with Angular 20, demonstrating clean architecture and reactive patterns.
+A modern, signal-based data table built with Angular 20.
 
 ## Key Features
 
@@ -39,8 +39,6 @@ export class UserComponent {
 - Column headers are generated automatically from data keys
 - Sorting is handled via clickable headers
 - All state managed through Angular signals
-
-This implementation demonstrates modern Angular patterns suitable for production use.
 
 ![DataTable screenshot](./data-table-screenshot.png)
 
