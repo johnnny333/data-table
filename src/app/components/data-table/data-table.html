@@ -1,0 +1,43 @@
+@let dataResource = dataResource$(); @if(dataResource?.hasValue()) { @let keys =
+keys$();
+
+<div class="table-wrapper" [style.height]="pageSize$() === 5 ? '290px' : null">
+  <table aria-label="Data table">
+    <thead>
+      <tr>
+        @for (key of keys; track $index) {
+        <th scope="col" (click)="sortService.setSortField(key)">
+          {{ key.toString() | titlecase }}
+          @if(sortService.currentSortField$() === key) { ({{
+            sortService.sortDirection$() === "asc" ? "↑" : "↓"
+          }}) }
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (entity of visibleEntities$(); track trackByFn(entity, $index)) {
+      <tr>
+        @for (key of keys; track $index) {
+        <td>
+          {{ entity[key] }}
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<app-paginator
+  class="paginator"
+  [totalPages$]="totalPages$()"
+  [(currentPage$)]="currentPage$"
+  [(pageSize$)]="pageSize$"
+></app-paginator>
+
+} @else if (dataResource.error()) {
+<p class="error-message">Could not load data</p>
+} @else if (dataResource.isLoading()) {
+<p aria-live="polite" role="status">Loading data...</p>
+}

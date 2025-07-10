@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { DataTable } from './components/data-table/data-table';
+import { ResourceHttp } from './services/resource-http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, DataTable],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected title = 'data-table';
+  private readonly resourceHttp = inject(ResourceHttp);
+
+  /* Various data types to test */
+  protected usersResource = this.resourceHttp.usersResource;
+  protected productsResource = this.resourceHttp.productsResource;
 }

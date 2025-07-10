@@ -1,0 +1,22 @@
+@let totalPages = totalPages$(); @let currentPage = currentPage$();
+
+<select name="no-of-users" [(ngModel)]="pageSize$">
+  <option [ngValue]="5">Show 5</option>
+  <option [ngValue]="10">Show 10</option>
+  <option [ngValue]="20">Show 20</option>
+</select>
+<button
+  [disabled]="currentPage === 1"
+  (click)="prevPage()"
+  aria-label="Previous page"
+>
+  Prev
+</button>
+<span aria-current="page">Page {{ currentPage }} of {{ totalPages }}</span>
+<button
+  [disabled]="totalPages === currentPage"
+  (click)="nextPage()"
+  aria-label="Next page"
+>
+  Next
+</button>

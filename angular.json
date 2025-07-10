@@ -19,6 +19,10 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "mockServiceWorker.js",
+                "input": "src/mocks"
               }
             ],
             "styles": [
@@ -81,5 +85,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "a432e042-ebdf-4c32-98ec-44f8a23122f1"
   }
 }
